@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
     val multiplicacion= "*"
     val division= "/"
     val porcentaje= "%"
-
+    var opeResult:Double= Double.NaN
     var operacionActual =""
     var primerValor: Double = Double.NaN
     var sengundoValor: Double = Double.NaN
@@ -45,15 +45,21 @@ class MainActivity : AppCompatActivity() {
         tvTemp.text=""
     }
     fun calcular(){
+        opeResult=Double.NaN
         if(primerValor.toString()!="NaN"){
             sengundoValor = tvTemp.text.toString().toDouble()
             tvTemp.text=""
             when(operacionActual){
-                "+"->primerValor= (primerValor+sengundoValor)
-                "-"->primerValor= (primerValor+sengundoValor)
-                "*"->primerValor= (primerValor+sengundoValor)
-                "/"->primerValor= (primerValor+sengundoValor)
-                "%"->primerValor= (primerValor+sengundoValor)
+                "+"->opeResult= (primerValor+sengundoValor)
+                "-"->opeResult= (primerValor-sengundoValor)
+                "*"->opeResult= (primerValor*sengundoValor)
+                "/"->if (sengundoValor>0){opeResult= (primerValor/sengundoValor)}
+                "%"->opeResult= (primerValor%sengundoValor)
+            }
+            if (opeResult.toString()=="NaN"){
+                tvResult.text="Error"
+            }else{
+                tvResult.text=formatoDecimal.format(opeResult)
             }
         }else{
             primerValor=tvTemp.text.toString().toDouble()
@@ -65,7 +71,6 @@ class MainActivity : AppCompatActivity() {
     }
     fun resultado(b: View){
         calcular()
-        tvResult.text=formatoDecimal.format(primerValor)
         primerValor= Double.NaN
         operacionActual= ""
         
